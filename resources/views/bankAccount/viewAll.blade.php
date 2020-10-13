@@ -26,8 +26,13 @@
                         <td><a href="{{ route('bankAccountView', ['bankAccount' => $bankAccount]) }}">{{ $bankAccount->name }}</a></td>
                         <td>{{ $bankAccount->accountNumber }}</td>
                         <td>
-                            <a href="{{ route('editBankAccount', ['bankAccount' => $bankAccount]) }}"><i class="fas fa-pencil-alt"></i></a>
-                            <a href="{{ route('deleteBankAccount', ['bankAccount' => $bankAccount]) }}"><i class="fas fa-trash-alt"></i></a>
+                            @can('update', $bankAccount)
+                                <a href="{{ route('editBankAccount', ['bankAccount' => $bankAccount]) }}"><i class="fas fa-pencil-alt"></i></a>
+                            @endcan
+
+                            @can('delete', $bankAccount)
+                                    <a href="{{ route('deleteBankAccount', ['bankAccount' => $bankAccount]) }}"><i class="fas fa-trash-alt"></i></a>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

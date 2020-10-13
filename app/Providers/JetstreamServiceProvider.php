@@ -45,23 +45,23 @@ class JetstreamServiceProvider extends ServiceProvider
      */
     protected function configurePermissions()
     {
-        Jetstream::defaultApiTokenPermissions(['read']);
+        Jetstream::defaultApiTokenPermissions(['view']);
 
         Jetstream::role('admin', 'Administrator', [
             'create',
-            'read',
+            'view',
             'update',
             'delete',
         ])->description('Administratoren können alles.');
 
         Jetstream::role('editor', 'Editor', [
-            'read',
+            'view',
             'create',
             'update',
         ])->description('Editor können Bankkonten und Kontostände sehen, neue Kontostände erfassen und neue Bankkonten erstellen.');
 
         Jetstream::role('viewer', 'Viewer', [
-            'read'
+            'view'
         ])->description('Viewer können nur Bankkonten und die Kontostände sehen. Sie können nichts bearbeiten oder löschen.');
     }
 }
