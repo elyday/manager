@@ -1,57 +1,61 @@
-<x-guest-layout>
-    <x-jet-authentication-card>
-        <x-slot name="logo">
-            <x-jet-authentication-card-logo />
-        </x-slot>
+@extends('layouts.authentication')
 
-        <div x-data="{ recovery: false }">
-            <div class="mb-4 text-sm text-gray-600" x-show="! recovery">
-                {{ __('Please confirm access to your account by entering the authentication code provided by your authenticator application.') }}
-            </div>
+@section('content')
+    <div class="row">
+        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+        <div class="col-lg-6">
+            <div class="p-5" x-data="{ recovery: false }">
+                <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Two-Factor!</h1>
+                    <p class="mb-4" x-show="! recovery">
+                        Bitte bestätige den Zugang zu deinem Konto, indem du den Authentifizierungscode eingibst, den du
+                        von deiner Authentifizierungsanwendung erhalten hast.
+                    </p>
 
-            <div class="mb-4 text-sm text-gray-600" x-show="recovery">
-                {{ __('Please confirm access to your account by entering one of your emergency recovery codes.') }}
-            </div>
-
-            <x-jet-validation-errors class="mb-4" />
-
-            <form method="POST" action="/two-factor-challenge">
-                @csrf
-
-                <div class="mt-4" x-show="! recovery">
-                    <x-jet-label value="{{ __('Code') }}" />
-                    <x-jet-input class="block mt-1 w-full" type="text" name="code" autofocus x-ref="code" autocomplete="one-time-code" />
+                    <p class="mb-4" x-show="recovery">
+                        Bitte bestätige den Zugang zu deinem Konto, indem du einen Wiederherstellungscode eingibst.
+                    </p>
                 </div>
 
-                <div class="mt-4" x-show="recovery">
-                    <x-jet-label value="{{ __('Recovery Code') }}" />
-                    <x-jet-input class="block mt-1 w-full" type="text" name="recovery_code" x-ref="recovery_code" autocomplete="one-time-code" />
-                </div>
+                <x-form-error-display/>
 
-                <div class="flex items-center justify-end mt-4">
-                    <button type="button" class="text-sm text-gray-600 hover:text-gray-900 underline cursor-pointer"
-                                    x-show="! recovery"
-                                    x-on:click="
+                <form class="user" method="POST" action="{{ route('two-factor.login') }}">
+                    @csrf
+
+                    <div class="form-group" x-show="! recovery">
+                        <input type="text" name="code" id="code" autofocus x-ref="code" autocomplete="one-time-code"
+                               class="form-control form-control-user" placeholder="Code">
+                    </div>
+
+                    <div class="form-group" x-show="recovery">
+                        <input type="text" name="recovery_code" id="recovery_code" autofocus x-ref="recovery_code"
+                               autocomplete="one-time-code" class="form-control form-control-user"
+                               placeholder="Wiederherstellungscode">
+                    </div>
+
+                    <button type="button" class="btn btn-dark btn-user btn-block" x-show="! recovery"
+                            x-on:click="
                                         recovery = true;
                                         $nextTick(() => { $refs.recovery_code.focus() })
                                     ">
-                        {{ __('Use a recovery code') }}
+                        Wiederherstellungscode benutzen
                     </button>
 
-                    <button type="button" class="text-sm text-gray-600 hover:text-gray-900 underline cursor-pointer"
-                                    x-show="recovery"
-                                    x-on:click="
+                    <button type="button" class="btn btn-dark btn-user btn-block" x-show="recovery"
+                            x-on:click="
                                         recovery = false;
                                         $nextTick(() => { $refs.code.focus() })
                                     ">
-                        {{ __('Use an authentication code') }}
+                        Authentifizierungscode benutzen
                     </button>
+                    <br>
+                    <br>
 
-                    <x-jet-button class="ml-4">
-                        {{ __('Login') }}
-                    </x-jet-button>
-                </div>
-            </form>
+                    <button type="submit" class="btn btn-primary btn-user btn-block">
+                        Login
+                    </button>
+                </form>
+            </div>
         </div>
-    </x-jet-authentication-card>
-</x-guest-layout>
+    </div>
+@endsection

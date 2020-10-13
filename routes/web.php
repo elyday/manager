@@ -25,10 +25,6 @@ Route::prefix('bankaccount')->middleware(['auth:sanctum', 'verified'])->group(
     function () {
         Route::redirect('', '/bankaccounts');
 
-        Route::get('{bankAccount}', [BankAccount::class, 'view'])
-            ->name('bankAccountView')
-            ->middleware('can:view,bankAccount');
-
         Route::get('create', [BankAccount::class, 'create'])
             ->name('createBankAccount')
             ->middleware('can:create,App\Models\BankAccount');
@@ -40,6 +36,10 @@ Route::prefix('bankaccount')->middleware(['auth:sanctum', 'verified'])->group(
         Route::get('{bankAccount}/delete', [BankAccount::class, 'delete'])
             ->name('deleteBankAccount')
             ->middleware('can:delete,bankAccount');
+
+        Route::get('{bankAccount}', [BankAccount::class, 'view'])
+            ->name('bankAccountView')
+            ->middleware('can:view,bankAccount');
     }
 );
 
@@ -50,7 +50,7 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::redirect('/', '/dashboard');
 
 Route::prefix('api')
-    ->middleware(['auth:sanctum', 'can:view,bankAccount'])
+    ->middleware('auth:sanctum')
     ->group(
         function () {
             Route::get(
@@ -59,6 +59,6 @@ Route::prefix('api')
                     \App\Http\Controllers\Api\BankAccount::class,
                     'getBalancesFromBankAccount'
                 ]
-            );
+            )->middleware('can:view,bankAccount');
         }
     );

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="de">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{ $siteTitle }} - {{ $pageTitle }}</title>
+    <title>{{ config('app.name', 'Manager') }} - {{ $pageTitle }}</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('/css/fontawesome.min.css') }}" rel="stylesheet" type="text/css">
