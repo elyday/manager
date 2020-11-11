@@ -65,6 +65,8 @@ class BankAccount extends Model
 
         $balance->captured = $captured;
         $balance->value = $value;
+        $balance->differenceDollar = 0;
+        $balance->differencePercentage = 0;
         $balance->save();
 
         $balance->updateDifferences();
