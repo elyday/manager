@@ -10,7 +10,7 @@
 @section('content')
     <div class="card shadow">
         <div class="card-body">
-            <table class="table table-striped">
+            <table class="table table-striped table-responsive">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -23,15 +23,23 @@
                 @foreach($bankAccounts as $bankAccount)
                     <tr>
                         <td>{{ $bankAccount->id }}</td>
-                        <td><a href="{{ route('bankAccountView', ['bankAccount' => $bankAccount]) }}">{{ $bankAccount->name }}</a></td>
+                        <td>
+                            <a href="{{ route('bankAccountView', ['bankAccount' => $bankAccount]) }}">
+                                {{ $bankAccount->name }}
+                            </a>
+                        </td>
                         <td>{{ $bankAccount->accountNumber }}</td>
                         <td>
                             @can('update', $bankAccount)
-                                <a href="{{ route('editBankAccount', ['bankAccount' => $bankAccount]) }}"><i class="fas fa-pencil-alt"></i></a>
+                                <a href="{{ route('editBankAccount', ['bankAccount' => $bankAccount]) }}" data-toggle="tooltip" data-playment="top" title="Bankkonto bearbeiten">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
                             @endcan
 
                             @can('delete', $bankAccount)
-                                    <a href="{{ route('deleteBankAccount', ['bankAccount' => $bankAccount]) }}"><i class="fas fa-trash-alt"></i></a>
+                                    <a href="{{ route('deleteBankAccount', ['bankAccount' => $bankAccount]) }}" data-toggle="tooltip" data-playment="top" title="Bankkonto löschen">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
                             @endcan
                         </td>
                     </tr>
