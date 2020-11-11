@@ -4,27 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class BankAccountBalance
  *
  * @package App\Models
  *
- * @property int $id
- * @property int $bankAccountId
+ * @property int    $id
+ * @property int    $bankAccountId
  * @property string $captured
- * @property float $value
- * @property float $differenceDollar
- * @property float $differencePercentage
+ * @property float  $value
+ * @property float  $differenceDollar
+ * @property float  $differencePercentage
  */
 class BankAccountBalance extends Model
 {
     use HasFactory;
 
-    /**
-     * @param  bool  $save
-     */
-    public function updateDifferences(bool $save = false): void
+    public function updateDifferences(): void
     {
         /** @var self $balanceBefore */
         $balanceBefore = self::where('bankAccountId', $this->bankAccountId)
@@ -47,6 +45,7 @@ class BankAccountBalance extends Model
                 $balanceBefore->value,
                 2
             );
+
             $this->differencePercentage = bcmul(
                 bcsub(
                     bcdiv(
@@ -63,12 +62,10 @@ class BankAccountBalance extends Model
         }
 
 
-        if ($save) {
-            $this->save();
-        }
+        $this->save();
 
         if ($balanceAfter instanceof self) {
-            $balanceAfter->updateDifferences(true);
+            $balanceAfter->updateDifferences();
         }
     }
 }

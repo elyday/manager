@@ -89,5 +89,11 @@
 @livewireScripts
 @yield('customJS')
 
+<script type="application/javascript">
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+
 </body>
 </html>

@@ -1,18 +1,35 @@
 @extends('layouts.appNew')
 
 @section('content')
-    @can('create', $bankAccount)
-        <div class="row">
-            <div class="col-12">
-                <div class="card shadow mb-4">
-                    <div class="card-header"><h6 class="m-0 font-weight-bold text-primary">Kontostand erfassen</h6></div>
-                    <div class="card-body">
-                        <livewire:bank-account.create-balance :bankAccount="$bankAccount" />
-                    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header"><h6 class="m-0 font-weight-bold text-primary">Details</h6></div>
+                <div class="card-body">
+                    <p class="font-weight-bold text-primary m-0">Durschnitt</p>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td class="font-weight-bold">Kontostand</td>
+                            <td>${{ number_format($bankAccount->getAverageBalanceValue(), 2, ',', '.') }}</td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Differenz ($)</td>
+                            <td>
+                                ${{ number_format($bankAccount->getAverageBalanceDifferenceDollar(), 2, ',', '.') }}</td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Differenz (%)</td>
+                            <td>{{ number_format($bankAccount->getAverageBalanceDifferencePercentage(), 2, ',', '.') }}
+                                %
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    @endcan
+    </div>
 
     <div class="row">
         <div class="col-12">
@@ -35,11 +52,39 @@
     </div>
 
     <div class="row">
-        <div class="col-12">
+        @can('viewAny', \App\Models\BankAccountGoal::class)
+            <div class="col-sm-8">
+                <div class="card shadow mb-4">
+                    <div class="card-header"><h6 class="m-0 font-weight-bold text-primary">Ziele</h6></div>
+                    <div class="card-body">
+                        <livewire:bank-account.display-goals :bankAccount="$bankAccount"/>
+                    </div>
+                </div>
+            </div>
+        @endcan
+
+        @can('create', \App\Models\BankAccountGoal::class)
+            <div class="col-sm-4">
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            Ziel erstellen
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <livewire:bank-account.create-goal :bankAccount="$bankAccount"/>
+                    </div>
+                </div>
+            </div>
+        @endcan
+    </div>
+
+    <div class="row">
+        <div class="col-sm-8">
             <div class="card shadow mb-4">
                 <div class="card-header"><h6 class="m-0 font-weight-bold text-primary">Kontostände</h6></div>
                 <div class="card-body">
-                    <table class="table table-striped">
+                    <table class="table table-striped table-responsive-sm">
                         <thead>
                         <tr>
                             <th>Erfasst am</th>
@@ -53,8 +98,14 @@
                             <tr>
                                 <td>{{ \Carbon\Carbon::parse($balance->captured)->format('d.m.Y') }}</td>
                                 <td>${{ number_format($balance->value, 2, ',', '.') }}</td>
-                                <td>${{ number_format($balance->differenceDollar, 2, ',', '.') }}</td>
-                                <td>{{ number_format($balance->differencePercentage, 2, ',', '.') }} %</td>
+                                <td @if($balance->differenceDollar > 0) style="color: green;"
+                                    @elseif($balance->differenceDollar < 0) style="color: red;" @endif>
+                                    ${{ number_format($balance->differenceDollar, 2, ',', '.') }}
+                                </td>
+                                <td @if($balance->differencePercentage > 0) style="color: green;"
+                                    @elseif($balance->differencePercentage < 0) style="color: red;" @endif>
+                                    {{ number_format($balance->differencePercentage, 2, ',', '.') }}%
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -62,6 +113,18 @@
                 </div>
             </div>
         </div>
+
+        @can('create', $bankAccount)
+            <div class="col-sm-4">
+                <div class="card shadow mb-4">
+                    <div class="card-header"><h6 class="m-0 font-weight-bold text-primary">Kontostand erfassen</h6>
+                    </div>
+                    <div class="card-body">
+                        <livewire:bank-account.create-balance :bankAccount="$bankAccount"/>
+                    </div>
+                </div>
+            </div>
+        @endcan
     </div>
 @endsection
 

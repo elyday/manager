@@ -32,13 +32,14 @@ class CreateBalance extends Component
     {
         $this->validate(
             [
-                'captured' => 'required|date',
+                'captured' => 'required|date|before:tomorrow',
                 'value' => 'required|numeric'
             ],
             [
                 'required' => 'Das Feld :attribute muss ausgefüllt sein.',
                 'date' => 'Das Feld :attribute enthält kein gültiges Datum.',
-                'numeric' => 'Das Feld :attribute enthält keine Zahl.'
+                'numeric' => 'Das Feld :attribute enthält keine Zahl.',
+                'captured.before' => 'Es darf kein Kontostand aus der Zukunft erfasst werden.'
             ],
             [
                 'captured' => 'Erfasst am',
@@ -47,6 +48,7 @@ class CreateBalance extends Component
         );
 
         $this->bankAccount->addBalance($this->captured, $this->value);
+
         request()->session()->flash(
             'successMessage',
             'Kontostand wurde erfolgreich erfasst.'
