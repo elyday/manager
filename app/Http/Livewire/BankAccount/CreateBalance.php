@@ -21,6 +21,7 @@ class CreateBalance extends Component
     public function mount(): void
     {
         $this->captured = Carbon::parse(time())->format('Y-m-d');
+        $this->value = 0;
     }
 
     public function render()

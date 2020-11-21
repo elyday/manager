@@ -21,6 +21,7 @@ class CreateGoal extends Component
     public function mount(): void
     {
         $this->startedAt = Carbon::parse(time())->format('Y-m-d');
+        $this->goal = 0;
     }
 
     public function render()

@@ -16,12 +16,13 @@
                         <tr>
                             <td class="font-weight-bold">Differenz ($)</td>
                             <td>
-                                ${{ number_format($bankAccount->getAverageBalanceDifferenceDollar(), 2, ',', '.') }}</td>
+                                ${{ number_format($bankAccount->getAverageBalanceDifferenceDollar(), 2, ',', '.') }}
+                            </td>
                         </tr>
                         <tr>
                             <td class="font-weight-bold">Differenz (%)</td>
-                            <td>{{ number_format($bankAccount->getAverageBalanceDifferencePercentage(), 2, ',', '.') }}
-                                %
+                            <td>
+                                {{ number_format($bankAccount->getAverageBalanceDifferencePercentage(), 2, ',', '.') }}%
                             </td>
                         </tr>
                         </tbody>
@@ -84,32 +85,34 @@
             <div class="card shadow mb-4">
                 <div class="card-header"><h6 class="m-0 font-weight-bold text-primary">Kontostände</h6></div>
                 <div class="card-body">
-                    <table class="table table-striped table-responsive-sm">
-                        <thead>
-                        <tr>
-                            <th>Erfasst am</th>
-                            <th>Kontostand</th>
-                            <th>Differenz ($)</th>
-                            <th>Differenz (%)</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($balances as $balance)
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
                             <tr>
-                                <td>{{ \Carbon\Carbon::parse($balance->captured)->format('d.m.Y') }}</td>
-                                <td>${{ number_format($balance->value, 2, ',', '.') }}</td>
-                                <td @if($balance->differenceDollar > 0) style="color: green;"
-                                    @elseif($balance->differenceDollar < 0) style="color: red;" @endif>
-                                    ${{ number_format($balance->differenceDollar, 2, ',', '.') }}
-                                </td>
-                                <td @if($balance->differencePercentage > 0) style="color: green;"
-                                    @elseif($balance->differencePercentage < 0) style="color: red;" @endif>
-                                    {{ number_format($balance->differencePercentage, 2, ',', '.') }}%
-                                </td>
+                                <th>Erfasst am</th>
+                                <th>Kontostand</th>
+                                <th>Differenz ($)</th>
+                                <th>Differenz (%)</th>
                             </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            @foreach($balances as $balance)
+                                <tr>
+                                    <td>{{ \Carbon\Carbon::parse($balance->captured)->format('d.m.Y') }}</td>
+                                    <td>${{ number_format($balance->value, 2, ',', '.') }}</td>
+                                    <td @if($balance->differenceDollar > 0) style="color: green;"
+                                        @elseif($balance->differenceDollar < 0) style="color: red;" @endif>
+                                        ${{ number_format($balance->differenceDollar, 2, ',', '.') }}
+                                    </td>
+                                    <td @if($balance->differencePercentage > 0) style="color: green;"
+                                        @elseif($balance->differencePercentage < 0) style="color: red;" @endif>
+                                        {{ number_format($balance->differencePercentage, 2, ',', '.') }}%
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
