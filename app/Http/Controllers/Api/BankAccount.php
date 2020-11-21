@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\BankAccountBalance;
+use App\Models\BankAccount\Balance;
 use Carbon\Carbon;
 
 /**
@@ -20,19 +20,15 @@ class BankAccount extends Controller
         $balances = $bankAccount->balances()->orderBy('captured')->get();
         $result = ['line' => [], 'bar' => []];
 
-        /** @var BankAccountBalance $balance */
+        /** @var Balance $balance */
         foreach ($balances as $balance) {
             $result['line'][] = [
-                'x' => Carbon::parse($balance->captured)->getPreciseTimestamp(
-                    3
-                ),
+                'x' => Carbon::parse($balance->captured)->getPreciseTimestamp(3),
                 'y' => (float)$balance->value
             ];
 
             $result['column'][] = [
-                'x' => Carbon::parse($balance->captured)->getPreciseTimestamp(
-                    3
-                ),
+                'x' => Carbon::parse($balance->captured)->getPreciseTimestamp(3),
                 'y' => (float)$balance->differenceDollar
             ];
         }

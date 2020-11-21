@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\BankAccount\Balance;
+use App\Models\BankAccount\Goal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class BankAccount
@@ -26,7 +27,7 @@ class BankAccount extends Model
      */
     public function balances(): HasMany
     {
-        return $this->hasMany(BankAccountBalance::class, 'bankAccountId');
+        return $this->hasMany(Balance::class, 'bankAccountId');
     }
 
     /**
@@ -34,15 +35,15 @@ class BankAccount extends Model
      */
     public function goals(): HasMany
     {
-        return $this->hasMany(BankAccountGoal::class, 'bankAccountId');
+        return $this->hasMany(Goal::class, 'bankAccountId');
     }
 
     /**
      * This method will return the open goal for this bank account.
      *
-     * @return BankAccountGoal|null
+     * @return Goal|null
      */
-    public function getOpenGoal(): ?BankAccountGoal
+    public function getOpenGoal(): ?Goal
     {
         return $this->goals()->whereNull('endedAt')->first();
     }
@@ -58,8 +59,8 @@ class BankAccount extends Model
     {
         $balance = $this->balances()->where('captured', $captured)->first();
 
-        if (!$balance instanceof BankAccountBalance) {
-            $balance = new BankAccountBalance();
+        if (!$balance instanceof Balance) {
+            $balance = new Balance();
             $balance->bankAccountId = $this->id;
         }
 
@@ -84,7 +85,7 @@ class BankAccount extends Model
      */
     public function addGoal(string $startedAt, float $goal): void
     {
-        $goalObject = new BankAccountGoal();
+        $goalObject = new Goal();
         $goalObject->bankAccountId = $this->id;
         $goalObject->startedAt = $startedAt;
         $goalObject->goal = $goal;
@@ -97,10 +98,13 @@ class BankAccount extends Model
      */
     public function getAverageBalanceValue(): ?string
     {
-        return $this->balances()
-            ->selectRaw('AVG(value) AS value')
-            ->first()
-            ->value;
+        return round(
+            $this->balances()
+                ->selectRaw('AVG(value) AS value')
+                ->first()
+                ->value,
+            2
+        );
     }
 
     /**
@@ -108,10 +112,13 @@ class BankAccount extends Model
      */
     public function getAverageBalanceDifferenceDollar(): ?string
     {
-        return $this->balances()
-            ->selectRaw('AVG(differenceDollar) AS differenceDollar')
-            ->first()
-            ->differenceDollar;
+        return round(
+            $this->balances()
+                ->selectRaw('AVG(differenceDollar) AS differenceDollar')
+                ->first()
+                ->differenceDollar,
+            2
+        );
     }
 
     /**
@@ -119,9 +126,12 @@ class BankAccount extends Model
      */
     public function getAverageBalanceDifferencePercentage(): ?string
     {
-        return $this->balances()
-            ->selectRaw('AVG(differencePercentage) AS differencePercentage')
-            ->first()
-            ->differencePercentage;
+        return round(
+            $this->balances()
+                ->selectRaw('AVG(differencePercentage) AS differencePercentage')
+                ->first()
+                ->differencePercentage,
+            2
+        );
     }
 }

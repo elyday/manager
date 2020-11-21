@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\BankAccount;
 
 use App\Models\BankAccount;
-use App\Models\BankAccountGoal;
+use App\Models\BankAccount\Goal;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
@@ -34,7 +34,7 @@ class DisplayGoals extends Component
 
     public function completeGoal(int $goalId): void
     {
-        /** @var BankAccountGoal $goal */
+        /** @var Goal $goal */
         $goal = $this->bankAccount->goals()->where('id', $goalId)->first();
 
         if ($goal->endedAt !== null) {
@@ -61,7 +61,7 @@ class DisplayGoals extends Component
 
     public function deleteGoal(int $goalId): void
     {
-        /** @var BankAccountGoal $goal */
+        /** @var Goal $goal */
         $goal = $this->bankAccount->goals()->where('id', $goalId)->first();
         $goal->delete();
 

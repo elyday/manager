@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\BankAccount;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class BankAccountBalance
+ * Class Balance
  *
- * @package App\Models
+ * @package App\Models\BankAccount
  *
  * @property int    $id
  * @property int    $bankAccountId
@@ -18,9 +18,11 @@ use Illuminate\Support\Facades\Log;
  * @property float  $differenceDollar
  * @property float  $differencePercentage
  */
-class BankAccountBalance extends Model
+class Balance extends Model
 {
     use HasFactory;
+
+    protected $table = 'bank_account_balances';
 
     public function updateDifferences(): void
     {

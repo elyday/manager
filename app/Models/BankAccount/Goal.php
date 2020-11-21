@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\BankAccount;
 
+use App\Models\BankAccount;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class BankAccountGoal
+ * Class Goal
  *
  * @package App\Models
  *
@@ -18,9 +19,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property float  $goal
  * @property float  $lastBalance
  */
-class BankAccountGoal extends Model
+class Goal extends Model
 {
     use HasFactory;
+
+    protected $table = 'bank_account_goals';
 
     /**
      * @return BelongsTo
@@ -59,10 +62,10 @@ class BankAccountGoal extends Model
     {
         /** @var BankAccount $bankAccount */
         $bankAccount = $this->bankAccount()->first();
-        /** @var BankAccountBalance $balance */
+        /** @var Balance $balance */
         $balance = $bankAccount->balances()->orderByDesc('captured')->first();
 
-        if ($balance instanceof BankAccountBalance) {
+        if ($balance instanceof Balance) {
             $this->lastBalance = $balance->value;
         } else {
             $this->lastBalance = 0;
