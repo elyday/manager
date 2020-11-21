@@ -117,6 +117,11 @@ return [
             'user' => 'root',
             'stage' => 'dev'
         ],
+        'manager-master' => [
+            'deploy_path' => '/var/www/manager-master',
+            'user' => 'root',
+            'stage' => 'master'
+        ]
     ],
 
     /*
