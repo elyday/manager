@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Models\BankAccount;
-use App\Models\BankAccountGoal;
+use App\Models\BankAccount\Goal;
 use App\Models\Team;
 use App\Policies\BankAccount\GoalPolicy;
 use App\Policies\BankAccountPolicy;
@@ -25,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Team::class => TeamPolicy::class,
         BankAccount::class => BankAccountPolicy::class,
-        BankAccountGoal::class => GoalPolicy::class
+        Goal::class => GoalPolicy::class
     ];
 
     /**

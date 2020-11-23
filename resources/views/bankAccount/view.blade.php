@@ -53,7 +53,7 @@
     </div>
 
     <div class="row">
-        @can('viewAny', \App\Models\BankAccountGoal::class)
+        @can('viewAny', \App\Models\BankAccount\Goal::class)
             <div class="col-sm-8">
                 <div class="card shadow mb-4">
                     <div class="card-header"><h6 class="m-0 font-weight-bold text-primary">Ziele</h6></div>
@@ -64,7 +64,7 @@
             </div>
         @endcan
 
-        @can('create', \App\Models\BankAccountGoal::class)
+        @can('create', \App\Models\BankAccount\Goal::class)
             <div class="col-sm-4">
                 <div class="card shadow mb-4">
                     <div class="card-header">

@@ -1,4 +1,8 @@
+![PHPUnit](https://github.com/elyday/manager/workflows/PHPUnit/badge.svg?branch=main)
+[![codecov](https://codecov.io/gh/elyday/manager/branch/main/graph/badge.svg?token=KWQNU2QRPC)](https://codecov.io/gh/elyday/manager)
+
 ## About Manager
+
 Manager is supposed to become a web application that can be used to manage a virtual fictitious company. It should contain the following functionalities at some point:
 
 - Bank Account Management
