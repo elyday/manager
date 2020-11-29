@@ -1,46 +1,34 @@
-@extends('layouts.authentication')
+<x-guest-layout>
+    <x-jet-authentication-card>
+        <x-slot name="logo">
+            <x-jet-authentication-card-logo />
+        </x-slot>
 
-@section('content')
-    <div class="row">
-        <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
-        <div class="col-lg-6">
-            <div class="p-5">
-                <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-2">Passwort vergessen?</h1>
-                    <p class="mb-4">
-                        Das kann schon mal passieren. Gebe unten einfach deine E-Mail Adresse ein und wir schicken dir
-                        einen Link mit dem du dein Passwort zurücksetzen kannst.
-                    </p>
-                </div>
-
-                <x-form-error-display />
-
-                @if (session('status'))
-                    <div class="alert alert-info">
-                        {{ session('status') }}
-                    </div>
-                @endif
-
-                <form class="user" method="POST" action="{{ route('password.email') }}">
-                    @csrf
-
-                    <div class="form-group">
-                        <input type="email" id="email" name="email" :value="old('email')" required autofocus
-                               class="form-control form-control-user" placeholder="E-Mail Adresse..">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-user btn-block">
-                        Passwort zurücksetzen
-                    </button>
-                </form>
-                <hr>
-                <div class="text-center">
-                    <a class="small" href="{{ route('register') }}">Registrieren</a>
-                </div>
-                <div class="text-center">
-                    <a class="small" href="{{ route('login') }}">Bereits Registriert? Jetzt Einloggen!</a>
-                </div>
-            </div>
+        <div class="mb-4 text-sm text-gray-600">
+            Haben Sie Ihr Passwort vergessen? Kein Problem. Teilen Sie uns einfach Ihre E-Mail-Adresse mit, und wir senden Ihnen per E-Mail einen Link zum Zurücksetzen Ihres Passworts, mit dem Sie ein neues Passwort wählen können.
         </div>
-    </div>
-@endsection
+
+        @if (session('status'))
+            <div class="mb-4 font-medium text-sm text-green-600">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        <x-jet-validation-errors class="mb-4" />
+
+        <form method="POST" action="{{ route('password.email') }}">
+            @csrf
+
+            <div class="block">
+                <x-jet-label value="E-Mail" />
+                <x-jet-input class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+                <x-jet-button>
+                    Ich habe mein Passwort vergessen
+                </x-jet-button>
+            </div>
+        </form>
+    </x-jet-authentication-card>
+</x-guest-layout>

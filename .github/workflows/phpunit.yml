@@ -1,0 +1,39 @@
+name: PHPUnit
+
+on:
+  [ push, pull_request ]
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: getong/mariadb-action@v1.1
+        with:
+          host port: 3308 # Optional, default value is 3306. The port of host
+          container port: 3308 # Optional, default value is 3306. The port of container
+          mysql database: 'manager'
+          mysql root password: 'manager'
+          mysql user: 'manager'
+          mysql password: 'manager'
+      - uses: actions/checkout@v2
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Laravel Preparation
+        run: |
+          php artisan key:generate
+          php artisan optimize
+          php artisan cache:clear
+          php artisan config:cache
+      - name: Database Preparation
+        run: php artisan migrate:fresh
+      - name: JS/CSS Preparation
+        run: |
+          npm install
+          npm run dev
+      - name: Testing
+        run: php artisan test --coverage-clover=coverage.xml
+      - name: Upload CodeCoverage
+        run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
