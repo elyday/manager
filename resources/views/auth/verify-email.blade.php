@@ -1,43 +1,37 @@
-@extends('layouts.authentication')
+<x-guest-layout>
+    <x-jet-authentication-card>
+        <x-slot name="logo">
+            <x-jet-authentication-card-logo />
+        </x-slot>
 
-@section('content')
-    <div class="row">
-        <div class="col-lg-6 d-none d-lg-block bg-register-image"></div>
-        <div class="col-lg-6">
-            <div class="p-5">
-                <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-2">E-Mail Bestätigen</h1>
-                    <p class="mb-4">
-                        Vielen Dank fürs Registrieren. Bevor du jedoch starten kannst, musst du zuerst eine E-Mail
-                        Adresse verifizieren. Hierzu haben wir dir einen Link an deine angegebene E-Mail Adresse
-                        geschickt. Wenn du diese E-Mail nicht erhalten hast, können wir dir eine Neue schicken. Klicke
-                        hier zu einfach auf den Button unterhalb dieses Textes.
-                    </p>
-                </div>
-
-                @if (session('status') == 'verification-link-sent')
-                    <div class="alert alert-info">
-                        Ein neuer Verifizierungs Link wurde an deine hinterlegte E-Mail Adresse geschickt.
-                    </div>
-                @endif
-
-                <form class="user" method="POST" action="{{ route('verification.send') }}">
-                    @csrf
-
-                    <button type="submit" class="btn btn-primary btn-user btn-block">
-                        Verifizierungs E-Mail erneut senden
-                    </button>
-                </form>
-                <hr>
-
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <button type="submit" class="btn btn-dark btn-user btn-block">
-                        Ausloggen
-                    </button>
-                </form>
-            </div>
+        <div class="mb-4 text-sm text-gray-600">
+            {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
         </div>
-    </div>
-@endsection
+
+        @if (session('status') == 'verification-link-sent')
+            <div class="mb-4 font-medium text-sm text-green-600">
+                {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+            </div>
+        @endif
+
+        <div class="mt-4 flex items-center justify-between">
+            <form method="POST" action="{{ route('verification.send') }}">
+                @csrf
+
+                <div>
+                    <x-jet-button type="submit">
+                        {{ __('Resend Verification Email') }}
+                    </x-jet-button>
+                </div>
+            </form>
+
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+
+                <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900">
+                    {{ __('Logout') }}
+                </button>
+            </form>
+        </div>
+    </x-jet-authentication-card>
+</x-guest-layout>
