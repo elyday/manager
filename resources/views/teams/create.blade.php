@@ -1,7 +1,9 @@
 <x-app-layout>
+    <x-slot name="pageTitle">Neues Team erstellen</x-slot>
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create Team') }}
+            Neues Team erstellen
         </h2>
     </x-slot>
 

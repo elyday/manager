@@ -14,9 +14,9 @@ This web application is still under development and no stable release has been p
 ### Technology Stack
 This web application uses the following libraries and other stuff:
 
-- [Laravel (Version 8)](https://laravel.com/)
+- [Laravel 8](https://laravel.com/)
     - Laravel Jetstream (includes Sanctum, Tinker and Livewire)
-- [SB-Admin 2](https://startbootstrap.com/themes/sb-admin-2/) (Template with Bootstrap 4)
+- [Tailwind CSS](https://tailwindcss.com/)
 
 #### Laravel Jetstream
 We use Laravel Jetstream because it covers all our requirements and we have to build as little as possible ourselves. All components within the application will depend on the teams, so resources can be shared within the teams.

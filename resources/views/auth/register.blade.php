@@ -1,55 +1,43 @@
-@extends('layouts.authentication')
+<x-guest-layout>
+    <x-jet-authentication-card>
+        <x-slot name="logo">
+            <x-jet-authentication-card-logo />
+        </x-slot>
 
-@section('content')
-    <div class="row">
-        <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
-        <div class="col-lg-7">
-            <div class="p-5">
-                <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Registrieren</h1>
-                </div>
+        <x-jet-validation-errors class="mb-4" />
 
-                <x-form-error-display/>
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
 
-                <form class="user" method="POST" action="{{ route('register') }}">
-                    @csrf
-
-                    <div class="form-group ">
-                        <input type="text" class="form-control form-control-user" id="name" name="name"
-                               value="{{ old('name') }}" required autofocus autocomplete="name" placeholder="Name">
-                    </div>
-                    <div class="form-group">
-                        <input type="email" class="form-control form-control-user" id="email" name="email"
-                               value="{{ old('email') }}" required placeholder="Email Address">
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-6 mb-3 mb-sm-0">
-                            <input type="password" class="form-control form-control-user" id="password" name="password"
-                                   required autocomplete="new-password" placeholder="Passwort">
-                        </div>
-                        <div class="col-sm-6">
-                            <input type="password" class="form-control form-control-user" id="password_confirmation"
-                                   name="password_confirmation" required autocomplete="new-password"
-                                   placeholder="Passwort wiederholen">
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-user btn-block">
-                        Registrieren
-                    </button>
-                </form>
-                <hr>
-
-                @if (Route::has('password.request'))
-                    <div class="text-center">
-                        <a class="small" href="{{ route('password.request') }}">Passwort vergessen?</a>
-                    </div>
-                @endif
-
-                <div class="text-center">
-                    <a class="small" href="{{ route('login') }}">Bereit Registriert? Jetzt einloggen!</a>
-                </div>
+            <div>
+                <x-jet-label value="Name" />
+                <x-jet-input class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             </div>
-        </div>
-    </div>
-@endsection
+
+            <div class="mt-4">
+                <x-jet-label value="E-Mail" />
+                <x-jet-input class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+            </div>
+
+            <div class="mt-4">
+                <x-jet-label value="Passwort" />
+                <x-jet-input class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
+            </div>
+
+            <div class="mt-4">
+                <x-jet-label value="Passwort wiederholen" />
+                <x-jet-input class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
+                    Bereits registriert?
+                </a>
+
+                <x-jet-button class="ml-4">
+                    {{ __('Register') }}
+                </x-jet-button>
+            </div>
+        </form>
+    </x-jet-authentication-card>
+</x-guest-layout>

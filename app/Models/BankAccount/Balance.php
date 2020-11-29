@@ -2,8 +2,10 @@
 
 namespace App\Models\BankAccount;
 
+use App\Models\BankAccount;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -23,6 +25,14 @@ class Balance extends Model
     use HasFactory;
 
     protected $table = 'bank_account_balances';
+
+    /**
+     * @return BelongsTo
+     */
+    public function bankAccount(): BelongsTo
+    {
+        return $this->belongsTo(BankAccount::class, 'bankAccountId');
+    }
 
     public function updateDifferences(): void
     {
