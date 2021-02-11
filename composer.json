@@ -2,7 +2,7 @@
   "name": "elyday/manager",
   "type": "project",
   "description": "The Laravel Framework.",
-  "version": "0.2",
+  "version": "0.2.1",
   "keywords": [
     "manager",
     "elyday"
